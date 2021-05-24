@@ -25,14 +25,15 @@ def home(request):
         # print(type(links))
         for ultag in soup.find_all('ul', {'class': 'card-list'}):
             for litag in ultag.find_all('li', {'class': 'card-list-item'})[:10]:
-
-                for all_tag in litag.find_all('a'):
-                    # print(type(all_tag))
+                print(litag)
+                for all_tag in litag.find_all('a')[:10]:
+                    print(type(all_tag))
                     links.append(all_tag.get('href'))
-        str1 = 'https://insider.in'
+        str1 = url
         all_links = prepend(links, str1)
-        print(all_links)
-        kk = all_links
+        # print(all_links)
+        kk = all_links[:10]
+
         # a = links[1]
         # # print(type(a))
         # b = links[2]
@@ -61,3 +62,5 @@ def home(request):
 
     if request.method == 'GET':
         return render(request, 'Home.html')
+
+# https://insider.in/all-fundraising-week-events-in-online?utm_source=Insider&utm_medium=CityBanner
