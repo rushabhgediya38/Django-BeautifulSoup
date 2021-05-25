@@ -6,6 +6,7 @@ import timeit
 import json
 from sApp.models import sData, InterestingUrl, Non_interesting_url, uData
 
+
 # https://insider.in/all-fundraising-week-events-in-online?utm_source=Insider&utm_medium=CityBanner
 
 
@@ -48,26 +49,30 @@ def home(request):
             s = soup1.find('script', type="application/ld+json")
             # print(s)
             if s:
+                print('----------------------------SData-------------------------------------------------------------')
                 Non_interesting_urls = soup1.select('a[href]:not([href^="/"])')
 
                 for i in Non_interesting_urls:
                     nonUrl = i.get('href')
-                    Non_interesting_url.objects.create(Non_interesting_url1=nonUrl)
-                    print('run Non_interesting_url')
+                    if nonUrl != '#':
+                        if not nonUrl.startswith("tel"):
+                            Non_interesting_url.objects.create(Non_interesting_url1=nonUrl)
+                            print('run Non_interesting_url')
+
+                cat = soup1.findAll('div', {"class": "css-1jwr5f2"})
+                # print(cat)
+                cD = ""
+                for i in cat:
+                    for j in i:
+                        for k in j.find_all('p'):
+                            cD += k.text
+                cat_get = cD
 
                 json_object = json.loads(s.contents[0])
 
                 if json_object is None:
                     print('NonType')
                     pass
-
-                cat_lists = ['Comedy', 'COVID-19', 'Workshop', 'Guitar', 'Online Tambola Housie', 'Online Ludo Saga',
-                             'Screenwriting', 'Engineering', 'Computer Engineering', 'Civil Engineering', 'Sports',
-                             'Spirituality', 'Cello', 'Python', 'Wines', 'Computer Engineering', 'Cvil',
-                             'Civil Engineering', 'Ludo', 'Cosmetics', 'Workshop', 'Stock Market', 'Sales']
-                word_tokens = word_tokenize(json_object['name'])
-                # print(word_tokens)
-                filtered_sentences = [w for w in word_tokens if w in cat_lists]
 
                 # print(filtered_sentences)
                 print('eventAttendanceMode :', json_object['eventAttendanceMode'])
@@ -91,32 +96,60 @@ def home(request):
                                      startDate=json_object['startDate'],
                                      endDate=json_object['endDate'],
                                      performer_name=json_object['performer']['name'],
-                                     category=filtered_sentences,
+                                     category=cat_get,
                                      )
 
             else:
-                title4 = soup1.find('title')
-                title44 = title4.string
 
-                eventMode4 = soup1.findAll("p", {"class": "css-1oqavfg"})
-                desc4 = soup1.findAll("section", {"class": "css-1rzyjn1"})
-                cat4 = soup1.findAll("p", {"class": "css-hc3kyf"})
+                print('----------------------------UData-------------------------------------------------------------')
 
-                qr4 = soup1.findAll("div", {"class": "css-79elbk"})
-                qr44 = qr4.findAll("img")
-                qr444 = qr44.get('src')
+                title = soup.find('title')
+                title_get = title.string
 
-                uData.objects.create(eventAttendanceMode=eventMode4,
-                                     name=title44,
-                                     description=desc4,
-                                     image=qr444,
-                                     category=cat4,
+                teams = soup.findAll('img')
+                sImg = []
+                for i in teams:
+                    src = i.get('src')
+                    sImg.append(src)
+                img_get = sImg[0]
+                # print('Image :', sImg[0])
+
+                desc = ""
+                table = soup.findAll('section', {"class": "css-1rzyjn1"})
+                # print(table)
+                for i in table:
+                    for j in i.find_all('p'):
+                        desc += j.text
+
+                desc_get = desc
+
+                cat = soup.findAll('div', {"class": "css-1jwr5f2"})
+                # print(cat)
+                cD = ""
+                for i in cat:
+                    for j in i:
+                        for k in j.find_all('p'):
+                            cD += k.text
+                cat_get = cD
+
+                eventMode = []
+                eventMode4 = soup.findAll("p", {"class": "css-cd7xhm-Ee"})
+                print(eventMode4)
+                for i in eventMode4:
+                    for k in i:
+                        eventMode.append(k)
+                eventAMode = eventMode[0]
+
+                uData.objects.create(eventAttendanceMode=eventAMode,
+                                     name=title_get,
+                                     description=desc_get,
+                                     image=img_get,
+                                     category=cat_get,
                                      )
-                print('website have not structured data')
+
         stop = timeit.default_timer()
         print('Time: ', stop - start)
         return HttpResponse('all data success')
-        # 8 to 11 seconds for 10 items
-
+    
     else:
         return render(request, 'Home.html')

@@ -13,7 +13,7 @@ def prepend(list, str):
     return (list)
 
 
-r = requests.get('http://naadyogacouncil.com')
+r = requests.get('https://naadyogacouncil.com')
 start = timeit.default_timer()
 soup = BeautifulSoup(r.text, 'html.parser')
 links = []
@@ -46,7 +46,7 @@ for i in join_lists:
     if i not in dub_link:
         dub_link.append(i)
 
-print(dub_link)
+# print(dub_link)
 
 # right now 0.453 seconds ahiya suthi
 
@@ -59,10 +59,13 @@ for i in dub_link:
 
     # i will check if Structured data is available or not.
     if s:
-        print('------------------------------- S-DATA -----------------------------------------------------')
+        print('------------------------------------------ S-DATA -----------------------------------------------------')
 
         Non_interesting_url = soup1.select('a[href]:not([href^="/"])')
-        print(Non_interesting_url)
+        for link in Non_interesting_url:
+            if link.get('href') != '#':
+                print(link)
+
         # Non_interesting_url_a = Non_interesting_url.find_all('href')
         # print(Non_interesting_url_a)
         #
@@ -78,16 +81,16 @@ for i in dub_link:
         # print(json_object)
         cat_lists = ['Comedy', 'COVID-19', 'Workshop', 'Guitar', 'Online Tambola Housie', 'Online Ludo Saga',
                      'Screenwriting', 'Engineering', 'Computer Engineering', 'Civil Engineering', 'Sports']
-        # word_tokens = word_tokenize(json_object['name'])
-        # print(word_tokens)
+
+        word_tokens = word_tokenize(json_object[0]['name'])
+        print(word_tokens)
         # filtered_sentences = [w for w in word_tokens if w in cat_lists]
         # print(filtered_sentences)
         # print('eventAttendanceMode :', json_object['eventAttendanceMode'])
-        # print('name :', json_object['name'])
-        # print('url :', json_object['url'])
-        # print('startDate :', json_object['startDate'])
-        # print('endDate :', json_object['endDate'])
-        # print('description :', json_object['description'])
+        # print('name :', json_object['description'])
+        print('url :', json_object[0]['url'])
+
+        print('description :', json_object[0]['description'])
         # print('image :', json_object['image'])
         # print('performer-name :', json_object['performer']['name'])
 
@@ -104,26 +107,37 @@ for i in dub_link:
     else:
         print('---------------------------- UData ----------------------------------------')
         print('url is: ', i)
-        title4 = soup1.find('title')
-        title44 = title4.string
-        print(title44)
-        eventMode4 = soup1.findAll("p", {"class": "css-1oqavfg"})
 
-        desc4 = soup1.findAll("div", {"class": "unextended"})
-        # desc44 = desc4.get('p')
+        title = soup.find('title')
+        print('title :', title.string)
 
-        cat4 = soup1.findAll("p", {"class": "css-hc3kyf"})
+        teams = soup.findAll('img', {'class': 'size-full'})
+        # print(teams)
 
-        qr4 = soup1.findAll("img", {"class": "alignnone"})
-        # qr44 = qr4.get('src')
-        # print(qr44)
-        # uData.objects.create(eventAttendanceMode=eventMode4,
-        #                      name=title44,
-        #                      description=desc4,
-        #                      image=qr444,
-        #                      category=cat4,
-        #                      )
-        print('website have not structured data')
+        # css - hc3kyf
+
+        sImg = []
+
+        for i in teams:
+            src = i.get('src')
+            sImg.append(src)
+
+        print('Image :', sImg[0])
+
+        desc = []
+        table = soup.find_all('div', {"class": "unextended"})
+        # print(table)
+        for i in table:
+            for j in i.find_all('p'):
+                desc.append(j.text)
+
+        # print('desc :', desc)
+        eventMode = ""
+        eventMode4 = soup.find_all("h2", {"class": "text-divider-double"})
+        for i in eventMode4:
+            eventMode += i.text
+
+        print('eventName :', eventMode)
 
 stop = timeit.default_timer()
 print('Time: ', stop - start)
