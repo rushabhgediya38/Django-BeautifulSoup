@@ -8,3 +8,4 @@ from .models import *
 admin.site.register(sData)
 admin.site.register(InterestingUrl)
 admin.site.register(Non_interesting_url)
+admin.site.register(uData)

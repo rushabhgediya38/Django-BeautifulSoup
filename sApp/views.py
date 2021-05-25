@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 import requests
 import timeit
 import json
-from sApp.models import sData, InterestingUrl, Non_interesting_url
+from sApp.models import sData, InterestingUrl, Non_interesting_url, uData
 
 # https://insider.in/all-fundraising-week-events-in-online?utm_source=Insider&utm_medium=CityBanner
 
@@ -95,6 +95,23 @@ def home(request):
                                      )
 
             else:
+                title4 = soup1.find('title')
+                title44 = title4.string
+
+                eventMode4 = soup1.findAll("p", {"class": "css-1oqavfg"})
+                desc4 = soup1.findAll("section", {"class": "css-1rzyjn1"})
+                cat4 = soup1.findAll("p", {"class": "css-hc3kyf"})
+
+                qr4 = soup1.findAll("div", {"class": "css-79elbk"})
+                qr44 = qr4.findAll("img")
+                qr444 = qr44.get('src')
+
+                uData.objects.create(eventAttendanceMode=eventMode4,
+                                     name=title44,
+                                     description=desc4,
+                                     image=qr444,
+                                     category=cat4,
+                                     )
                 print('website have not structured data')
         stop = timeit.default_timer()
         print('Time: ', stop - start)
