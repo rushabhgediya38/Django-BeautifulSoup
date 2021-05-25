@@ -1,5 +1,4 @@
-from django.shortcuts import render, HttpResponse
-from nltk.tokenize import word_tokenize
+from django.shortcuts import render, HttpResponse, redirect
 from bs4 import BeautifulSoup
 import requests
 import timeit
@@ -157,7 +156,7 @@ def home(request):
 
             stop = timeit.default_timer()
             print('Time: ', stop - start)
-            return HttpResponse('all data success')
+            return redirect('sData')
         elif url == "http://naadyogacouncil.com":
             r = requests.get(url)
             # start = timeit.default_timer()
@@ -301,8 +300,32 @@ def home(request):
                                          category=catU,
                                          )
 
-            return HttpResponse('all data success http://naadyogacouncil.com')
+            return redirect('sData')
         else:
             return HttpResponse('url does not support')
     else:
         return render(request, 'Home.html')
+
+
+# Structured data.
+def s_Data(request):
+    asd = sData.objects.all()
+    return render(request, 'all_structuredData.html', {'sData': asd})
+
+
+# Un-Structured data.
+def u_Data(request):
+    ausd = uData.objects.all()
+    return render(request, 'all_UnS_Data.html', {'UsData': ausd})
+
+
+# InterestingUrl
+def iUrl(request):
+    aIURl = InterestingUrl.objects.all()
+    return render(request, 'all_iUrl.html', {'iUrl': aIURl})
+
+
+# Non_interesting_url
+def nUrl(request):
+    nIURl = Non_interesting_url.objects.all()
+    return render(request, 'all_nUrl.html', {'nUrl': nIURl})

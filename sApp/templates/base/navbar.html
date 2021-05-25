@@ -1,0 +1,72 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="{% url 'home' %}">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+
+        <li
+      {% if '/' == request.path %}
+        class="nav-item active"
+      {% else %}
+        class="nav-item"
+      {% endif %}
+    >
+      <a class="nav-link" href="{% url 'home' %}">Home</a>
+
+    </li>
+
+
+        <li
+            {% if 'sData/' in request.path %}
+              class="nav-item active"
+            {% else %}
+              class="nav-item"
+            {% endif %}
+          >
+            <a class="nav-link" href="{% url 'sData' %}">
+               Structured-Data</a>
+        </li>
+
+
+         <li
+            {% if 'UsData/' in request.path %}
+              class="nav-item active"
+            {% else %}
+              class="nav-item"
+            {% endif %}
+          >
+            <a class="nav-link" href="{% url 'UsData' %}">
+               UnStructured-Data</a>
+        </li>
+
+
+        <li
+            {% if 'iUrl/' in request.path %}
+              class="nav-item active"
+            {% else %}
+              class="nav-item"
+            {% endif %}
+          >
+            <a class="nav-link" href="{% url 'iUrl' %}">
+               Interesting-Url</a>
+        </li>
+
+
+        <li
+            {% if 'nUrls/' in request.path %}
+              class="nav-item active"
+            {% else %}
+              class="nav-item"
+            {% endif %}
+          >
+            <a class="nav-link" href="{% url 'nUrls' %}">
+               Non-Interesting-Url</a>
+        </li>
+
+
+    </ul>
+  </div>
+</nav>

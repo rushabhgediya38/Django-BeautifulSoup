@@ -2,13 +2,13 @@ from django.db import models
 
 
 class sData(models.Model):
-    eventAttendanceMode = models.CharField(max_length=256, blank=True, null=True)
+    eventAttendanceMode = models.CharField(max_length=256, blank=True, default="OnlineEventAttendanceMode", null=True)
     name = models.CharField(max_length=300, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     image = models.ImageField(blank=True, null=True)
     startDate = models.DateTimeField(blank=True, null=True)
     endDate = models.DateTimeField(blank=True, null=True)
-    performer_name = models.CharField(max_length=256, blank=True, null=True)
+    performer_name = models.CharField(max_length=256, default="None", blank=True, null=True)
     category = models.CharField(max_length=256, default="Noting", blank=True, null=True)
 
     def __str__(self):
@@ -16,11 +16,11 @@ class sData(models.Model):
 
 
 class uData(models.Model):
-    eventAttendanceMode = models.CharField(max_length=256, blank=True, null=True)
+    eventAttendanceMode = models.CharField(max_length=256, default="OnlineEventAttendanceMode", blank=True, null=True)
     name = models.CharField(max_length=300, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     image = models.ImageField(blank=True, null=True)
-    category = models.TextField(blank=True, null=True)
+    category = models.TextField(blank=True, default="Online Events", null=True)
 
     def __str__(self):
         return str(self.name)

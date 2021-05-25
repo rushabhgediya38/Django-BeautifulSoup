@@ -8,18 +8,57 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      .loader {
+        display: none;
+        top: 50%;
+        left: 50%;
+        position: absolute;
+        transform: translate(-50%, -50%);
+      }
+
+      .loading {
+        border: 2px solid #ccc;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        border-top-color: #1ecd97;
+        border-left-color: #1ecd97;
+        animation: spin 1s infinite ease-in;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+    <title>Home</title>
   </head>
   <body>
+    {% include 'base/navbar.html' %}
+    <div class="container mt-5">
 
-    <div class="container">
         <form method="post" action="{% url 'home' %}">
           {% csrf_token %}
             <div class="form-group">
                 <label for="id_freq_url">Enter Url</label>
-                <input type="url" class="form-control" name="freq_url" id="id_freq_url" placeholder="Enter Url">
+                <input type="url" class="form-control" name="freq_url" id="id_freq_url" required placeholder="Enter Url">
             </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" onclick="spinner()" class="btn btn-primary">Submit</button>
+          <div class="loader">
+            <div class="loading">
+            </div>
+          </div>
         </form>
     </div>
 
@@ -32,5 +71,12 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+   <script type="text/javascript">
+    function spinner() {
+        document.getElementsByClassName("loader")[0].style.display = "block";
+    }
+    </script>
+
   </body>
 </html>
