@@ -79,11 +79,11 @@ for i in dub_link:
             pass
 
         # print(json_object)
-        cat_lists = ['Comedy', 'COVID-19', 'Workshop', 'Guitar', 'Online Tambola Housie', 'Online Ludo Saga',
-                     'Screenwriting', 'Engineering', 'Computer Engineering', 'Civil Engineering', 'Sports']
-
-        word_tokens = word_tokenize(json_object[0]['name'])
-        print(word_tokens)
+        # cat_lists = ['Comedy', 'COVID-19', 'Workshop', 'Guitar', 'Online Tambola Housie', 'Online Ludo Saga',
+        #              'Screenwriting', 'Engineering', 'Computer Engineering', 'Civil Engineering', 'Sports']
+        #
+        # word_tokens = word_tokenize(json_object[0]['name'])
+        # print(word_tokens)
         # filtered_sentences = [w for w in word_tokens if w in cat_lists]
         # print(filtered_sentences)
         # print('eventAttendanceMode :', json_object['eventAttendanceMode'])
@@ -113,8 +113,6 @@ for i in dub_link:
 
         teams = soup.findAll('img', {'class': 'size-full'})
         # print(teams)
-
-        # css - hc3kyf
 
         sImg = []
 

@@ -20,7 +20,7 @@ class uData(models.Model):
     name = models.CharField(max_length=300, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     image = models.ImageField(blank=True, null=True)
-    category = models.CharField(max_length=256, default="Noting", blank=True, null=True)
+    category = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return str(self.name)
